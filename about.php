@@ -57,7 +57,7 @@
         </p>
       </div>
       <div class="col-lg-5 col-md-6 mb-4 order-lg-2 order-md-2 order-1">
-        <img src="pictures/about/nischal.png" class="img-fluid w-100 landscape-image">
+        <img src="pictures/about/p2.jpg" class="img-fluid w-100 landscape-image">
       </div>
 
     </div>
