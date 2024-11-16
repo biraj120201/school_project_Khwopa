@@ -27,10 +27,7 @@
     <h2 class="fw-4-bold h-font text-center">CONTACT US</h2>
     <div class="h-line bg-dark"></div>
     <p class="text-center mt-3">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-      Modi, tempora! Tempora recusandae dolorem <br> excepturi.
-      Eaque distinctio quae, tempore cum porro doloremque suscipit reprehenderit velit totam.
-      Ad modi at cupiditate eos.
+    We’d love to hear from you! Whether you have a question, need assistance, or want to share feedback,<br> our team at Hotel Riddhi Siddhi is here to help. Please feel free to reach out to us, and we’ll get back to you as soon as possible.
     </p>
   </div>
 

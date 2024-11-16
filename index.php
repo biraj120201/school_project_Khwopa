@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Riddhi Siddhi - home</title>
+  <title><?php echo $settings_r['site_title'];?>- home</title>
 
 
   <!-- Swiper CSS -->
@@ -97,147 +97,98 @@ ini_set('display_errors', 1);
   <div class="container">
     <!-- Room number 1 -->
     <div class="row">
-      <div class="col-lg-4 col-md-6 my-3">
-        <!-- Room Card -->
-        <div class="card border-0 shadow" style="max-width: 350px; margin:auto;">
-          <img src="pictures/room_pic_animated/room_pic_animated2.webp" class="card-img-top" alt="Room Image">
 
-          <div class="card-body">
-            <h5>Simple Room Name</h5>
-            <h6 class="mb-4">$250 per night</h6>
-            <div class="features mb-4">
-              <h6 class="mb-1">Features</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Rooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Bathrooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">1 Balcony</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">3 Sofas</span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Facilities</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Wifi</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Telephone</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">AC</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Room Heater</span>
-            </div>
-            <div class="guests mb-4">
-              <h6 class="mb-1">Guests</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">5 Adults</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">4 Childrens</span>
-            </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-half text-warning"></i>
-              </span>
-            </div>
-            <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-outline-dark shadow-none"> More details</a>
-            </div>
-          </div>
+      <?php
+      $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND  `removed`=? ORDER BY `id` DESC LIMIT 3", [1, 0], 'ii');
 
-        </div>
+      while ($room_data = mysqli_fetch_assoc($room_res)) {
 
-      </div>
-      <!-- Room number 2 -->
-      <div class="col-lg-4 col-md-6 my-3">
-        <!-- Room Card -->
-        <div class="card border-0 shadow" style="max-width: 350px; margin:auto;">
-          <img src="pictures/room_pic_animated/room_pic_animated3.webp" class="card-img-top" alt="Room Image">
+        // get features of rooms
 
-          <div class="card-body">
-            <h5>Simple Room Name</h5>
-            <h6 class="mb-4">$250 per night</h6>
-            <div class="features mb-4">
-              <h6 class="mb-1">Features</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Rooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Bathrooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">1 Balcony</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">3 Sofas</span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Facilities</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Wifi</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Telephone</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">AC</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Room Heater</span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Guests</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">5 Adults</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">4 Childrens</span>
-            </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-half text-warning"></i>
-              </span>
-            </div>
-            <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-outline-dark shadow-none"> More details</a>
-            </div>
-          </div>
+        $fea_q = mysqli_query($con, "SELECT f.name FROM `features` f
+           INNER JOIN `room_features` rfea ON f.id = rfea.features_id
+            WHERE rfea.room_id = '$room_data[id]'");
 
-        </div>
+        $features_data = "";
+        while ($fea_row = mysqli_fetch_assoc($fea_q)) {
+          $features_data .= "<span class='badge bg-light text-dark rounded-pill text-wrap me-1 mb-1'>
+                $fea_row[name]
+              </span>";
+        }
+        // get facilities of rooms
+        $fac_q = mysqli_query($con, "SELECT f.name FROM `facilities` f 
+            INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id
+            WHERE rfac.room_id ='$room_data[id]'");
 
-      </div>
+        $facilities_data = "";
+        while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+          $facilities_data .= "<span class='badge bg-light text-dark rounded-pill text-wrap me-1 mb-1'>
+                $fac_row[name]
+              </span>";
+        }
+        // get thumbnail image 
 
-      <!-- room number 3 -->
-      <div class="col-lg-4 col-md-6 my-3">
-        <!-- Room Card -->
-        <div class="card border-0 shadow" style="max-width: 350px; margin:auto;">
-          <img src="pictures/room_pic_animated/room_pic_animated4.webp" class="card-img-top" alt="Room Image">
+        $room_thumb = ROOMS_IMG_PATH . "thumbnail.jpg";
+        $thumb_q = mysqli_query($con, "SELECT * FROM `room_images`
+            WHERE `room_id`='$room_data[id]' 
+            AND `thumb`='1'");
 
-          <div class="card-body">
-            <h5>Simple Room Name</h5>
-            <h6 class="mb-4">$250 per night</h6>
-            <div class="features mb-4">
-              <h6 class="mb-1">Features</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Rooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">2 Bathrooms</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">1 Balcony</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">3 Sofas</span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Facilities</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Wifi</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Telephone</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">AC</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">Room Heater</span>
-            </div>
-            <div class="facilities mb-4">
-              <h6 class="mb-1">Guests</h6>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">5 Adults</span>
-              <span class="badge bg-light text-dark mb-3 text-wrap lh-base">4 Childrens</span>
-            </div>
-            <div class="rating mb-4">
-              <h6 class="mb-1">Rating</h6>
-              <span class="badge rounded-pill bg-light">
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-fill text-warning"></i>
-                <i class="bi bi-star-half text-warning"></i>
-              </span>
-            </div>
-            <div class="d-flex justify-content-evenly mb-2">
-              <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-              <a href="#" class="btn btn-outline-dark shadow-none"> More details</a>
-            </div>
-          </div>
+        if (mysqli_num_rows($thumb_q) > 0) {
+          $thumb_res = mysqli_fetch_assoc($thumb_q); 
+          $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+        }
 
-        </div>
+        $book_btn = "";
+        if (!$settings_r['shutdown']){
+          $login=0;
+          if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+            $login = 1;
+          }
+          $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' class='btn btn-sm text-white custom-bg shadow-none d-flex justify-content-center align-items-center'>Book Now</button>";
 
-      </div>
+        }
+
+        //print room card
+        echo <<<data
+            <div class="col-lg-4 col-md-6 my-3">
+              <!-- Room Card -->
+              <div class="card border-0 shadow" style="max-width: 350px; margin:auto;">
+                <img src="$room_thumb" class="card-img-top" alt="Room Image">
+
+                <div class="card-body">
+                  <h5>$room_data[name]</h5>
+                  <h6 class="mb-4">$$room_data[price] per night</h6>
+                  <div class="features mb-4">
+                    <h6 class="mb-1">Features</h6>
+                    $features_data
+                  </div>
+                  <div class="facilities mb-4">
+                    $facilities_data</div>
+                  <div class="guests mb-4">
+                    <h6 class="mb-1">Guests</h6>
+                    <span class="badge bg-light text-dark mb-3 text-wrap lh-base">$room_data[adult] Adults</span>
+                    <span class="badge bg-light text-dark mb-3 text-wrap lh-base">$room_data[children] Children</span>
+                  </div>
+                  <div class="rating mb-4">
+                    <h6 class="mb-1">Rating</h6>
+                    <span class="badge rounded-pill bg-light">
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-fill text-warning"></i>
+                      <i class="bi bi-star-half text-warning"></i>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-evenly mb-2">
+                    $book_btn
+                    <a href="room_details.php?id=$room_data[id]" class="btn btn-outline-dark shadow-none"> More details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        data;
+      }
+      ?>
 
       <div class="col-lg-12 text-center mt-5">
         <a href="rooms.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Rooms >>>></a>
@@ -250,26 +201,18 @@ ini_set('display_errors', 1);
 
   <div class="container">
     <div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-        <img src="pictures/facilities/3.svg" alt="wifi icon" width="80px">
-        <h5 class="mt-3">Wifi</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-        <img src="pictures/facilities/1.svg" alt="Geyser icon" width="80px">
-        <h5 class="mt-3">Geyser</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-        <img src="pictures/facilities/2.svg" alt="TV icon" width="80px">
-        <h5 class="mt-3">TV</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-        <img src="pictures/facilities/p-circle-fill.svg" alt="parking icon" width="80px">
-        <h5 class="mt-3">Parking</h5>
-      </div>
-      <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-        <img src="pictures/facilities/gym-station-svgrepo-com.svg" alt="GYM icon" width="80px">
-        <h5 class="mt-3">GYM</h5>
-      </div>
+      <?php
+      $res = mysqli_query($con, "SELECT * FROM `facilities` ORDER BY `id` DESC LIMIT 5");
+      $path = FEATURES_IMG_PATH;
+      while ($row = mysqli_fetch_assoc($res)) {
+        echo <<<data
+          <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
+            <img src="$path$row[icon]" width="60px">
+            <h5 class="mt-3">$row[name]</h5>
+          </div> 
+       data;
+      }
+      ?>
       <div class="col-lg-12 text-center mt-5">
         <a href="facilities.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">More Facilities >>>></a>
       </div>
@@ -284,13 +227,12 @@ ini_set('display_errors', 1);
 
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-item-center mb-3">
-            <img src="pictures/food_picture/food_pic1.jpg" width="30px" alt="">
-            <h6 class="m-0  ms-2">random user1</h6>
+            <img src="pictures/food_picture/food_pic10.webp" width="30px" alt="">
+            <h6 class="m-0  ms-2">Michael T.</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Dolor officiis, atque tempora, temporibus repellat ratione ut quae,
-            distinctio itaque quia necessitatibus pariatur illum aperiam ullam alias doloribus porro iste sunt.
+          <b>"Perfect for Business and Leisure!"<br></b>
+          I frequently travel for business and have stayed in many hotels, but Hotel Riddhi Siddhi stands out. The hotel’s amenities are top-notch, with a great business center and fast Wi-Fi for work. The lounge areas are perfect for relaxing after a long day of meetings. On top of that, the spa and pool were great for unwinding. The blend of business and leisure facilities makes it the perfect choice for any trip!
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -302,13 +244,12 @@ ini_set('display_errors', 1);
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-item-center p-4">
-            <img src="pictures/food_picture/food_pic1.jpg" width="30px" alt="">
-            <h6 class="m-0  ms-2">random user1</h6>
+            <img src="pictures/food_picture/food_pic11.webp" width="30px" alt="">
+            <h6 class="m-0  ms-2">Anita D.</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Dolor officiis, atque tempora, temporibus repellat ratione ut quae,
-            distinctio itaque quia necessitatibus pariatur illum aperiam ullam alias doloribus porro iste sunt.
+          <b>"Exceptional Service and Comfort!"<br></b>
+          I stayed at Hotel Riddhi Siddhi for a weekend getaway, and it exceeded all my expectations. From the moment I walked in, I felt welcomed and well taken care of. The room was pristine, and the bed was incredibly comfortable. I also loved the on-site restaurant with its variety of delicious dishes. The staff went out of their way to ensure my stay was memorable. Highly recommend this hotel!t.
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -320,13 +261,48 @@ ini_set('display_errors', 1);
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-item-center p-4">
-            <img src="pictures/food_picture/food_pic1.jpg" width="30px" alt="">
-            <h6 class="m-0  ms-2">random user1</h6>
+            <img src="pictures/food_picture/food_pic12.webp" width="30px" alt="">
+            <h6 class="m-0  ms-2">Rajesh P.</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Dolor officiis, atque tempora, temporibus repellat ratione ut quae,
-            distinctio itaque quia necessitatibus pariatur illum aperiam ullam alias doloribus porro iste sunt.
+          <b>"Perfect for Business and Leisure!"<br></b>
+          I frequently travel for business and have stayed in many hotels, but Hotel Riddhi Siddhi stands out. The hotel’s amenities are top-notch, with a great business center and fast Wi-Fi for work. The lounge areas are perfect for relaxing after a long day of meetings. On top of that, the spa and pool were great for unwinding. The blend of business and leisure facilities makes it the perfect choice for any trip!
+          </p>
+          <div class="rating">
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-half text-warning"></i>
+          </div>
+        </div>
+
+        <div class="swiper-slide bg-white p-4">
+          <div class="profile d-flex align-item-center p-4">
+            <img src="pictures/food_picture/food_pic13.webp" width="30px" alt="">
+            <h6 class="m-0  ms-2">Samantha W.</h6>
+          </div>
+          <p>
+          <b>"An Incredible Stay!"<br></b>
+          Hotel Riddhi Siddhi is truly a gem. The service is outstanding, and the staff really go above and beyond to make your stay comfortable. The rooms are spacious and modern, and the food is some of the best I’ve had at a hotel. I loved the peaceful atmosphere and the beautiful decor. The hotel is also in a fantastic location—close to shops and attractions but still quiet and relaxing. Will definitely be back!
+          </p>
+          <div class="rating">
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-half text-warning"></i>
+          </div>
+        </div>
+
+        <div class="swiper-slide bg-white p-4">
+          <div class="profile d-flex align-item-center p-4">
+            <img src="pictures/food_picture/food_pic14.webp" width="30px" alt="">
+            <h6 class="m-0  ms-2">simran w</h6>
+          </div>
+          <p>
+          <b>"Amazing Experience, Worth Every Penny!"<br></b>
+          My family and I had an incredible experience at Hotel Riddhi Siddhi. From the moment we arrived, we were treated with warmth and hospitality. The hotel offers everything you could need: comfortable rooms, delicious food, and excellent service. We especially enjoyed the outdoor pool and the relaxing spa services.
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>

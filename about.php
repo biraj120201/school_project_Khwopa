@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<?php require('inc/fonts.php');?>
+  <?php require('inc/fonts.php'); ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Riddhi Siddhi -about</title>
@@ -21,6 +21,15 @@
       border-top-color: white !important;
       /* Change border color to white on click */
     }
+
+    .landscape-image {
+      object-fit: cover;
+      /* Ensures the image covers the container without distortion */
+      height: 300px;
+      /* Adjust the height as needed */
+      width: 100%;
+      /* Ensures it takes up the full width of the container */
+    }
   </style>
 </head>
 
@@ -32,54 +41,52 @@
 
     <div class="h-line bg-dark"></div>
     <p class="text-center mt-3">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-      Modi, tempora! Tempora recusandae dolorem excepturi.
-      Eaque distinctio quae, tempore <br>cum porro doloremque suscipit reprehenderit velit totam.
-      Ad modi at cupiditate eos.
+      Your home away from home, offering comfort, luxury, and exceptional service for both business and leisure stays.
     </p>
   </div>
   <div class="container">
     <div class="row justify-content-between align-items-center">
       <div class="col-lg-6 col-md-5 mb-4 order-lg-1 order-md-1 order-2">
-        <h3 class="mb-3">Lorem ipsum dolor sit.</h3>
+        <h3 class="mb-3"><?php echo $settings_r['site_title']; ?>.</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Magnam consectetur quia itaque nobis aspernatur tempore
-          voluptates!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Magnam consectetur quia itaque nobis aspernatur tempore
-          voluptates!
+          ⭐️⭐️⭐️⭐️⭐️<br>
+          "A Hidden Gem in the Heart of the City!"<br>
+          I had an absolutely wonderful stay at Hotel Riddhi Siddhi! The location is perfect—close to all major attractions but still peaceful and relaxing. The staff was incredibly friendly and attentive, always ready to help with a smile. My room was spacious, clean, and beautifully furnished. The breakfast spread was amazing! Will definitely stay here again next time I’m in town.
+          <br><br>
+          — Samantha W.
         </p>
       </div>
-      <div class="col-lg-5 col-md-mb-4 order-lg-2 order-md-2 order-1">
-        <img src="pictures/hotel_pic_animated/hotel_pic_animated5.webp" class="w-100">
+      <div class="col-lg-5 col-md-6 mb-4 order-lg-2 order-md-2 order-1">
+        <img src="pictures/about/nischal.png" class="img-fluid w-100 landscape-image">
       </div>
+
     </div>
   </div>
   <div class="container mt-5">
     <div class="row">
       <div class="col-lg-3 col-md-6 px-4 ">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box border-dark">
-          <img src="pictures/room_pic_animated/room_pic_animated12.webp" width="70px">
-          <h4 class="mt-3"> 100+rooms</h4>
+          
+          <img src="pictures/about/b1.png" width="70px">
+          <h4 class="mt-3">No.1</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box border-dark">
-          <img src="pictures/room_pic_animated/room_pic_animated13. webp" width="70px">
-          <h4 class="mt-3"> 200+ CUSTOMERS</h4>
+          <img src="pictures/about/b3.png" width="70px">
+          <h4 class="mt-3">Best Food</h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box border-dark">
-          <img src="pictures/room_pic_animated/room_pic_animated12.webp" width="70px">
-          <h4 class="mt-3">150+ REVIEWS </h4>
+          <img src="pictures/about/b4.png" width="70px">
+          <h4 class="mt-3">Since 1950 </h4>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 px-4">
         <div class="bg-white rounded shadow p-4 border-top border-4 text-center box border-dark">
-          <img src="pictures/room_pic_animated/room_pic_animated12.webp" width="70px">
-          <h4 class="mt-3">200+ STAFFS</h4>
+          <img src="pictures/about/b5.png" width="70px">
+          <h4 class="mt-3">100+ COSTUMERS</h4>
         </div>
       </div>
     </div>
@@ -95,8 +102,8 @@
         $about_r = SelectAll('team_details');
         $path = ABOUT_IMG_PATH;
 
-        while($row = mysqli_fetch_assoc($about_r)){
-          echo<<<data
+        while ($row = mysqli_fetch_assoc($about_r)) {
+          echo <<<data
             <div class="swiper-slide bg-white text-center overflow-hidden rounded">
               <img src="$path$row[picture]" class="w-100">
               <h5 class="mt-2">$row[name]</h5>

@@ -27,15 +27,12 @@
 
     <div class="h-line bg-dark"></div>
     <p class="text-center mt-3">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-      Modi, tempora! Tempora recusandae dolorem <br> excepturi.
-      Eaque distinctio quae, tempore cum porro doloremque suscipit reprehenderit velit totam.
-      Ad modi at cupiditate eos.
+    At Hotel Riddhi Siddhi, we offer a range of world-class facilities to make your stay comfortable, convenient, and memorable.<br> Explore the amenities that cater to both relaxation and business needs.
     </p>
   </div>
   <div class="container">
     <div class="row">
-      <?php
+    <?php
       $res = selectAll('facilities');
       $path = FEATURES_IMG_PATH;
       while($row = mysqli_fetch_assoc($res)){
@@ -53,7 +50,7 @@
         </div>
        data;
       }
-      ?>
+    ?>
     </div>
   </div>
 
